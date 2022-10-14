@@ -34,7 +34,11 @@ Route::middleware(['auth', 'verified'])->group(function (){
     Route::get('/upload-image', [App\Http\Controllers\ImageController::class, 'create'])->name('image.create');
     Route::get('/show-image', [App\Http\Controllers\ImageController::class, 'show'])->name('image.show');
     Route::post('/upload-image', [App\Http\Controllers\ImageController::class, 'store'])->name('image.save');
-    Route::get('get/{file_name}', [ImageController::class, 'downloadFile'])->name('downlaod-image');
+    Route::get('download/{file_name}', [ImageController::class, 'downloadFile'])->name('downlaod-image');
+
+    Route::middleware('image.visibility')->group(function (){
+        Route::get('check-visibility/{id}', [ImageController::class, 'downloadFile'])->name('checkVisibility');
+    });
 
 });
 

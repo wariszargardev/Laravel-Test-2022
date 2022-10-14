@@ -2,7 +2,10 @@
 
 namespace App\Traits;
 
+use App\Models\UserImage;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Storage;
 
 trait ImageTrait {
 
@@ -30,4 +33,23 @@ trait ImageTrait {
 
     }
 
+    public function downloadImage($id){
+        $image = UserImage::find($id);
+        $file_name = $image->image;
+
+        $file = Storage::disk('public')->download($file_name);
+        return $file;
+    }
+
+    public function showImage($id){
+        $image = UserImage::find($id);
+        $file_name = $image->image;
+
+        // preview
+        $file = Storage::disk('public')->get($file_name);
+
+        return (new Response($file, 200))
+            ->header('Content-Type', 'image/jpeg');
+
+    }
 }

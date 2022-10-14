@@ -56,19 +56,7 @@ class ImageController extends Controller
     }
 
     function downloadFile($id){
-        $image = UserImage::find($id);
-        $file_name = $image->image;
-
-        // preview
-        $file = Storage::disk('public')->get($file_name);
-
-        return (new Response($file, 200))
-            ->header('Content-Type', 'image/jpeg');
-
-        // download
-
-        $file = Storage::disk('public')->download($file_name);
-        return $file;
-
+        return $this->downloadImage($id);
     }
+
 }
