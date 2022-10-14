@@ -96,10 +96,16 @@ class ImageController extends Controller
         }
 
         $users = User::whereIn('id', $request->userIds)->pluck('email');
-        foreach ($users as $user){
-            Mail::to($user)->send(new \App\Mail\SendImageLinkEmail($id));
+//        foreach ($users as $user){
+//            Mail::to($user)->send(new \App\Mail\SendImageLinkEmail($id));
+//
+//        }
 
-        }
+        $on = \Carbon\Carbon::now()->addSecond(10);
+
+//        dispatch(new \App\Jobs\SendEmailJob($id, $users))->delay($on);
+        dispatch(new \App\Jobs\SendEmailJob($id, $users));
+
         return redirect()->back();
     }
 
