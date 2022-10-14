@@ -9,12 +9,34 @@
 </head>
 <body>
     <div>
-        @foreach($images as $image)
+
             <div>
-                <h1>Id: {{$image->id}}</h1>
-                <img src="{{asset('storage').'/'.$image->image}}" />
+                <table>
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Image</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($images as $image)
+                        <tr>
+                            <td>
+                                <h1>Id: {{$image->id}}</h1>
+                            </td>
+                            <td>
+                                <img style="height: 250px; width: 250px;" src="{{asset('storage').'/'.$image->image}}" />
+                            </td>
+                            <td>
+                                <a href="{{route('downlaod-image', $image->id)}}"> Download </a>
+                            </td>
+                        </tr>
+                    @endforeach
+
+                    </tbody>
+                </table>
             </div>
-        @endforeach
     </div>
 </body>
 </html>

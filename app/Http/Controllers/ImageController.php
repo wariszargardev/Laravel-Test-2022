@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\UserImage;
 use App\Traits\ImageTrait;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 
 class ImageController extends Controller
@@ -51,5 +53,22 @@ class ImageController extends Controller
         $images = $user->images;
 
         return view('images', compact('images'));
+    }
+
+    function downloadFile($id){
+        $image = UserImage::find($id);
+        $file_name = $image->image;
+
+        // preview
+        $file = Storage::disk('public')->get($file_name);
+
+        return (new Response($file, 200))
+            ->header('Content-Type', 'image/jpeg');
+
+        // download
+
+        $file = Storage::disk('public')->download($file_name);
+        return $file;
+
     }
 }

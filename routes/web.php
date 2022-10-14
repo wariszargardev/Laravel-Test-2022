@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ImageController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -33,6 +34,8 @@ Route::middleware(['auth', 'verified'])->group(function (){
     Route::get('/upload-image', [App\Http\Controllers\ImageController::class, 'create'])->name('image.create');
     Route::get('/show-image', [App\Http\Controllers\ImageController::class, 'show'])->name('image.show');
     Route::post('/upload-image', [App\Http\Controllers\ImageController::class, 'store'])->name('image.save');
+    Route::get('get/{file_name}', [ImageController::class, 'downloadFile'])->name('downlaod-image');
+
 });
 
 
