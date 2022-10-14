@@ -60,4 +60,14 @@ class ImageController extends Controller
         return $this->downloadImage($id);
     }
 
+    function deleteFile($id){
+        $image = UserImage::find($id);
+        $file_name = $image->image;
+        if(deleteFile($file_name)){
+            echo "Image deleted";
+        }
+        else{
+            echo "Image not deleted";
+        }
+    }
 }

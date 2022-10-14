@@ -11,6 +11,14 @@ function isFileExists($imageName){
 }
 
 
+function deleteFile($imageName){
+    if(isFileExists($imageName)){
+        Storage::delete('public/'.$imageName);
+        return true;
+    }
+    return false;
+}
+
 function printAll($data){
     echo "<pre>";
     print_r($data);
