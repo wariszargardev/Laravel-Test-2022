@@ -30,6 +30,9 @@ Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $requ
 
 Route::middleware(['auth', 'verified'])->group(function (){
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::get('/upload-image', [App\Http\Controllers\ImageController::class, 'create'])->name('image.create');
+    Route::get('/show-image', [App\Http\Controllers\ImageController::class, 'show'])->name('image.show');
+    Route::post('/upload-image', [App\Http\Controllers\ImageController::class, 'store'])->name('image.save');
 });
 
 

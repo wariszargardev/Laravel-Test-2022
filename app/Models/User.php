@@ -48,4 +48,8 @@ class User extends Authenticatable implements MustVerifyEmail
         $this->notify(new VerifyEmail);
     }
 
+    public function images(){
+        return $this->hasMany(UserImage::class);
+    }
+
 }
