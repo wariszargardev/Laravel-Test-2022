@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\EmailSendEvent;
 use App\Mail\SendImageLinkEmail;
 use App\Models\ImageSharing;
 use App\Models\User;
@@ -104,7 +105,11 @@ class ImageController extends Controller
         $on = \Carbon\Carbon::now()->addSecond(10);
 
 //        dispatch(new \App\Jobs\SendEmailJob($id, $users))->delay($on);
-        dispatch(new \App\Jobs\SendEmailJob($id, $users));
+//        dispatch(new \App\Jobs\SendEmailJob($id, $users));
+
+
+        event (new EmailSendEvent($id, $users));
+
 
         return redirect()->back();
     }
