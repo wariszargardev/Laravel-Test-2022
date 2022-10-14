@@ -56,6 +56,7 @@ class ImageController extends Controller
     }
 
     function downloadFile($id){
+
         return $this->downloadImage($id);
     }
 

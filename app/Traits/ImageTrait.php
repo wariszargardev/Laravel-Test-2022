@@ -36,9 +36,11 @@ trait ImageTrait {
     public function downloadImage($id){
         $image = UserImage::find($id);
         $file_name = $image->image;
-
-        $file = Storage::disk('public')->download($file_name);
-        return $file;
+        if(isFileExists($file_name)){
+            $file = Storage::disk('public')->download($file_name);
+            return $file;
+        }
+        return "No image found, please contact with user";
     }
 
     public function showImage($id){
