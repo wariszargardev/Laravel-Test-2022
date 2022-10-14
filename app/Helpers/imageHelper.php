@@ -24,3 +24,12 @@ function printAll($data){
     print_r($data);
     die();
 }
+
+
+function encryptId($id){
+    return encrypt($id);
+}
+
+function decryptString($data){
+    return decrypt($data);
+}

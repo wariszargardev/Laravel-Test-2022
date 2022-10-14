@@ -2,12 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\SendImageLinkEmail;
+use App\Models\ImageSharing;
+use App\Models\User;
 use App\Models\UserImage;
 use App\Traits\ImageTrait;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
+use Nette\Utils\Image;
 
 
 class ImageController extends Controller
@@ -70,4 +76,31 @@ class ImageController extends Controller
             echo "Image not deleted";
         }
     }
+
+    function setImageVisibility($id){
+        $image = UserImage::find($id);
+        $users = User::where('id', '!=' , Auth::id())->get();
+
+        return view("update_image_status", compact('image', 'users', 'id'));
+    }
+
+    function updateImageVisibility(Request $request,$id){
+        $image = UserImage::find($id);
+        $image->visibility = $request->visibility;
+        $image->save();
+
+        foreach ($request->userIds as $id){
+            $imageSharing = new ImageSharing();
+            $imageSharing->user_id = $id;
+            $image->user_images()->save($imageSharing);
+        }
+
+        $users = User::whereIn('id', $request->userIds)->pluck('email');
+        foreach ($users as $user){
+            Mail::to($user)->send(new \App\Mail\SendImageLinkEmail($id));
+
+        }
+        return redirect()->back();
+    }
+
 }

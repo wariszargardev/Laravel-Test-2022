@@ -36,6 +36,8 @@ Route::middleware(['auth', 'verified'])->group(function (){
     Route::post('/upload-image', [App\Http\Controllers\ImageController::class, 'store'])->name('image.save');
     Route::get('download/{id}', [ImageController::class, 'downloadFile'])->name('downlaod-image');
     Route::get('delete/{id}', [ImageController::class, 'deleteFile'])->name('delte-image');
+    Route::get('set-image-visibility/{id}', [ImageController::class, 'setImageVisibility']);
+    Route::post('set-image-visibility/{id}', [ImageController::class, 'updateImageVisibility'])->name('update-image-status');
 
     Route::middleware('image.visibility')->group(function (){
         Route::get('check-visibility/{id}', [ImageController::class, 'downloadFile'])->name('checkVisibility');
